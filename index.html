@@ -460,7 +460,7 @@
   <!-- メイン選択画面 -->
   <div id="main-screen">
     <div class="header-bar">
-      <div class="counter" id="select-counter">選択中: 0人 (最低18人)</div>
+      <div class="counter" id="select-counter">選択中: 0人 (最低10人)</div>
       <button style="flex:none; padding: 4px 10px; font-size: 0.75rem;" onclick="toggleSelectAllPage()">全選択 / 解除</button>
     </div>
 
@@ -473,7 +473,7 @@
       <button id="next-btn" onclick="changePage(1)">次へ ▶</button>
     </div>
 
-    <button id="complete-btn" class="primary" disabled onclick="startBattlePhase()">二者択一へ進む (あと18人)</button>
+    <button id="complete-btn" class="primary" disabled onclick="startBattlePhase()">二者択一へ進む (あと10人)</button>
   </div>
 
   <!-- 二者択一バトル画面 -->
@@ -591,7 +591,7 @@
       { id: "7815", group: "ネルソンズ", name: "和田まんじゅう" },
       { id: "7816", group: "ネルソンズ", name: "青山フォール勝ち" },
       { id: "7817", group: "ネルソンズ", name: "岸健之助" },
-      { id: "7818", group: "破壊ありがとう", name: "森もり" },
+      { id: "78", group: "破壊ありがとう", name: "森もり" },
       { id: "7819", group: "破壊ありがとう", name: "田中机" },
       { id: "7820", group: "破壊ありがとう", name: "木下もくめ" },
       { id: "7821", group: "あんよの日", name: "やまち" },
@@ -783,15 +783,15 @@
 
     function updateCounter() {
       const count = selectedIndices.length;
-      document.getElementById('select-counter').textContent = `選択中: ${count}人 (最低18人)`;
+      document.getElementById('select-counter').textContent = `選択中: ${count}人 (最低10人)`;
 
       const btn = document.getElementById('complete-btn');
-      if (count >= 18) {
+      if (count >= 10) {
         btn.disabled = false;
         btn.textContent = `二者択一へ進む (${count}人選択中) ➔`;
       } else {
         btn.disabled = true;
-        btn.textContent = `あと ${18 - count} 人選んでね (最低18人)`;
+        btn.textContent = `あと ${10 - count} 人選んでね (最低10人)`;
       }
     }
 
