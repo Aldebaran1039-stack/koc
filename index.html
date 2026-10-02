@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>キングオブコント好き顔9選 👑✨</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --primary-color: #e74c3c;
+      --primary-hover: #c0392b;
+      --accent-color: #f1c40f;
+      --bg-color: #fff5f5;
+      --card-bg: #ffffff;
+      --text-color: #2c3e50;
+      --border-color: #ffccd5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 12px;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.3rem;
+      color: var(--primary-color);
+      margin-bottom: 12px;
+      text-shadow: 1px 1px 0px #fff;
+    }
+
+    /* スタート画面 */
+    #start-screen {
+      background: var(--card-bg);
+      border: 3px solid var(--primary-color);
+      border-radius: 16px;
+      padding: 24px 16px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(231, 76, 60, 0.15);
+    }
+
+    #start-screen h2 {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      color: var(--primary-color);
+    }
+
+    .description {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      background: #fff0f0;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    .disclaimer {
+      font-size: 0.75rem;
+      color: #7f8c8d;
+      border-top: 1px dashed var(--border-color);
+      padding-top: 12px;
+      margin-top: 16px;
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    /* メイン選択画面 */
+    #main-screen {
+      display: none;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      background: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .counter {
+      font-weight: bold;
+      font-size: 0.95rem;
+      color: var(--primary-color);
+    }
+
+    .pagination {
+      text-align: center;
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .item-card {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.1s, border-color 0.2s;
+    }
+
+    .item-card.selected {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 8px rgba(231, 76, 60, 0.4);
+    }
+
+    .item-card.selected::after {
+      content: "✔";
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: var(--primary-color);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
+
+    .img-container {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #ffe6e6;
+    }
+
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .item-info {
+      padding: 6px 4px;
+      text-align: center;
+    }
+
+    .group-name {
+      font-size: 0.7rem;
+      color: #7f8c8d;
+    }
+
+    .person-name {
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #bdc3c7;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background-color 0.2s;
+    }
+
+    button.primary {
+      background-color: var(--primary-color);
+      box-shadow: 0 3px 0 #a93226;
+    }
+
+    button.primary:active {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* 二者択一バトル画面 */
+    #battle-screen {
+      display: none;
+      text-align: center;
+    }
+
+    .battle-header {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: var(--primary-color);
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      height: 16px;
+      overflow: hidden;
+      margin-bottom: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: var(--primary-color);
+      width: 0%;
+      transition: width 0.2s;
+    }
+
+    .battle-progress {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 16px;
+      font-weight: bold;
+    }
+
+    .battle-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .battle-card {
+      flex: 1;
+      background: var(--card-bg);
+      border: 3px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.2s;
+    }
+
+    .battle-card:hover {
+      border-color: var(--primary-color);
+      transform: scale(1.03);
+    }
+
+    .vs-badge {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--primary-color);
+      background: #ffe6e6;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--primary-color);
+      flex-shrink: 0;
+    }
+
+    /* 結果画面 */
+    #result-screen {
+      display: none;
+    }
+
+    .grid-3x3-container {
+      background: white;
+      padding: 12px;
+      border-radius: 12px;
+      border: 3px solid var(--primary-color);
+      margin-bottom: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .grid-3x3-title {
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+
+    .grid-3x3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .grid-3x3-item {
+      aspect-ratio: 1 / 1;
+      position: relative;
+      overflow: hidden;
+      background: #eee;
+      border-radius: 6px;
+    }
+
+    .grid-3x3-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .rank-badge {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: var(--primary-color);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .grid-3x3-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.75);
+      color: white;
+      padding: 4px 2px;
+      text-align: center;
+    }
+
+    .grid-3x3-group {
+      font-size: 0.55rem;
+      color: #ddd;
+      line-height: 1;
+      margin-bottom: 1px;
+    }
+
+    .grid-3x3-name {
+      font-size: 0.75rem;
+      font-weight: bold;
+      line-height: 1.1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .all-ranks-container {
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+
+    .all-ranks-title {
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: var(--primary-color);
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 4px;
+    }
+
+    .all-ranks-list {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: #333;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 12px;
+    }
+
+    .rank-text-item {
+      white-space: nowrap;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>👑 キングオブコント 好き顔9選 🌹</h1>
+
+  <!-- スタート画面 -->
+  <div id="start-screen">
+    <h2>好き顔TOP9を作成しよう！✨</h2>
+    
+    <div class="description">
+      <p><strong>【対象メンバー】</strong></p>
+      <p>キングオブコント2026ファイナリスト、敗者復活戦、その他準決勝のメンバー ＋ キングオブコント2021〜2025ファイナリストの中からお気に入りの芸人さんを選んで決定します！🏆</p>
+    </div>
+
+    <button class="primary" onclick="startApp()">作成をはじめる 🚀</button>
+
+    <div class="disclaimer">
+      <p>⚠️ <strong>注意事項</strong></p>
+      <p>・当サイトは個人の非公式ファンコンテンツであり、公式・関係者様とは一切関係がございません。</p>
+      <p>・予告なく公開を終了または変更する場合がございます。あらかじめご了承ください。</p>
+    </div>
+  </div>
+
+  <!-- メイン選択画面 -->
+  <div id="main-screen">
+    <div class="header-bar">
+      <div class="counter" id="select-counter">選択中: 0人 (最低18人)</div>
+      <button style="flex:none; padding: 4px 10px; font-size: 0.75rem;" onclick="toggleSelectAllPage()">全選択 / 解除</button>
+    </div>
+
+    <div class="pagination" id="page-indicator">1 / 1 ページ</div>
+
+    <div class="item-grid" id="item-grid"></div>
+
+    <div class="nav-buttons">
+      <button id="prev-btn" onclick="changePage(-1)">◀ 前へ</button>
+      <button id="next-btn" onclick="changePage(1)">次へ ▶</button>
+    </div>
+
+    <button id="complete-btn" class="primary" disabled onclick="startBattlePhase()">二者択一へ進む (あと18人)</button>
+  </div>
+
+  <!-- 二者択一バトル画面 -->
+  <div id="battle-screen">
+    <div class="battle-header">どちらの顔が好み？ 🤔</div>
+    
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="battle-progress" id="battle-progress">00 / 00</div>
+
+    <div class="battle-container">
+      <div class="battle-card" onclick="chooseBattle(0)">
+        <div class="img-container">
+          <img id="img-a" src="" alt="">
+        </div>
+        <div class="item-info">
+          <div class="group-name" id="group-a"></div>
+          <div class="person-name" id="name-a"></div>
+        </div>
+      </div>
+
+      <div class="vs-badge">VS</div>
+
+      <div class="battle-card" onclick="chooseBattle(1)">
+        <div class="img-container">
+          <img id="img-b" src="" alt="">
+        </div>
+        <div class="item-info">
+          <div class="group-name" id="group-b"></div>
+          <div class="person-name" id="name-b"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 結果画面 -->
+  <div id="result-screen">
+    <div class="grid-3x3-container" id="capture-area">
+      <div class="grid-3x3-title">#キングオブコント好き顔9選 👑</div>
+      <div class="grid-3x3" id="result-grid"></div>
+    </div>
+
+    <!-- 総合順位テキスト表示 -->
+    <div class="all-ranks-container">
+      <div class="all-ranks-title">📊 選択した全員の総合順位</div>
+      <div class="all-ranks-list" id="all-ranks-list"></div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="primary" onclick="downloadImage()">📸 画像として保存する</button>
+      <button onclick="backToSelect()">🔄 最初から選び直す</button>
+    </div>
+  </div>
+
+  <script>
+    const rawData = [
+      { id: "7768", group: "相性はいいよね", name: "エビランド" },
+      { id: "7769", group: "相性はいいよね", name: "ヤダヤムクン" },
+      { id: "7770", group: "蛙亭", name: "中野周平" },
+      { id: "7771", group: "蛙亭", name: "イワクラ" },
+      { id: "7772", group: "元祖いちごちゃん", name: "植村侑史" },
+      { id: "7773", group: "元祖いちごちゃん", name: "ハイパーペロちゃん" },
+      { id: "7774", group: "ザ・マミィ", name: "林田洋平" },
+      { id: "7775", group: "ザ・マミィ", name: "酒井貴士" },
+      { id: "7776", group: "ジェラードン", name: "アタック西本" },
+      { id: "7777", group: "ジェラードン", name: "かみちぃ" },
+      { id: "7778", group: "ダウ90000", name: "道上珠妃" },
+      { id: "7779", group: "ダウ90000", name: "中島百依子" },
+      { id: "7780", group: "ダウ90000", name: "蓮見翔" },
+      { id: "7781", group: "ダウ90000", name: "忽那文香" },
+      { id: "7782", group: "ダウ90000", name: "吉原怜那" },
+      { id: "7783", group: "ダウ90000", name: "飯原僚也" },
+      { id: "7784", group: "ダウ90000", name: "園田祥太" },
+      { id: "7785", group: "ダウ90000", name: "上原佑太" },
+      { id: "7786", group: "ななまがり", name: "森下直人" },
+      { id: "7787", group: "ななまがり", name: "初瀬悠太" },
+      { id: "7788", group: "ニッポンの社長", name: "辻クラシック" },
+      { id: "7789", group: "ニッポンの社長", name: "ケツ" },
+      { id: "7790", group: "や団", name: "ロングサイズ伊藤" },
+      { id: "7791", group: "や団", name: "本間キッド" },
+      { id: "7792", group: "や団", name: "中嶋享" },
+      { id: "7793", group: "ヤッホイ", name: "永井" },
+      { id: "7794", group: "ヤッホイ", name: "泉" },
+      { id: "7795", group: "江戸川ジャンクジャンク", name: "倉田ぷかぷか" },
+      { id: "7796", group: "江戸川ジャンクジャンク", name: "たてお" },
+      { id: "7797", group: "江戸川ジャンクジャンク", name: "地面万" },
+      { id: "7798", group: "オフローズ", name: "カンノコレクション" },
+      { id: "7799", group: "オフローズ", name: "宮崎駿介" },
+      { id: "7800", group: "オフローズ", name: "明賀愛貴" },
+      { id: "7801", group: "cacao", name: "高橋" },
+      { id: "7802", group: "cacao", name: "浦田スターク" },
+      { id: "7803", group: "cacao", name: "たっぺい" },
+      { id: "7804", group: "喫茶ムーン", name: "阿部南斗" },
+      { id: "7805", group: "喫茶ムーン", name: "レヲン" },
+      { id: "7806", group: "しずる", name: "池田一真" },
+      { id: "7807", group: "しずる", name: "村上純" },
+      { id: "7808", group: "生姜猫", name: "川﨑" },
+      { id: "7809", group: "生姜猫", name: "ケージュ" },
+      { id: "7810", group: "生姜猫", name: "カンサイ" },
+      { id: "7811", group: "スパイシーガーリック", name: "片山智勝" },
+      { id: "7812", group: "スパイシーガーリック", name: "ジョン" },
+      { id: "7813", group: "そいつどいつ", name: "市川刺身" },
+      { id: "7814", group: "そいつどいつ", name: "松本竹馬" },
+      { id: "7815", group: "ネルソンズ", name: "和田まんじゅう" },
+      { id: "7816", group: "ネルソンズ", name: "青山フォール勝ち" },
+      { id: "7817", group: "ネルソンズ", name: "岸健之助" },
+      { id: "7818", group: "破壊ありがとう", name: "森もり" },
+      { id: "7819", group: "破壊ありがとう", name: "田中机" },
+      { id: "7820", group: "破壊ありがとう", name: "木下もくめ" },
+      { id: "7821", group: "あんよの日", name: "やまち" },
+      { id: "7822", group: "あんよの日", name: "朱海" },
+      { id: "7825", group: "おむかいの葉っぱ洋食店", name: "バメヤン" },
+      { id: "7826", group: "おむかいの葉っぱ洋食店", name: "もっぱらくん" },
+      { id: "7827", group: "金の国", name: "渡部おにぎり" },
+      { id: "7828", group: "金の国", name: "桃沢健輔" },
+      { id: "7829", group: "GAG", name: "SJ" },
+      { id: "7830", group: "GAG", name: "福井俊太郎" },
+      { id: "7831", group: "GAG", name: "安田ファニー" },
+      { id: "7832", group: "スタミナパン", name: "麻婆" },
+      { id: "7833", group: "スタミナパン", name: "トシダタカヒデ" },
+      { id: "7834", group: "たらちね", name: "SAITA" },
+      { id: "7903", group: "たらちね", name: "草山公汰" },
+      { id: "7836", group: "ドゥリオ", name: "高木貫太" },
+      { id: "7837", group: "ドゥリオ", name: "サツマカワRPG" },
+      { id: "7838", group: "ドゥリオ", name: "松村祥維" },
+      { id: "7839", group: "ドンデコルテ", name: "小橋共作" },
+      { id: "7840", group: "ドンデコルテ", name: "渡辺銀次" },
+      { id: "7841", group: "ぶったま", name: "ガッパー稲吉" },
+      { id: "7842", group: "ぶったま", name: "亀社長" },
+      { id: "7843", group: "虫と兵隊", name: "メガネロック大屋" },
+      { id: "7844", group: "虫と兵隊", name: "どくさいスイッチ企画" },
+      { id: "7845", group: "ゆくえ", name: "浅原康太" },
+      { id: "7846", group: "ゆくえ", name: "井ノ口たまご" },
+      { id: "7847", group: "うるとらブギーズ", name: "佐々木崇博" },
+      { id: "7905", group: "うるとらブギーズ", name: "八木崇" },
+      { id: "7849", group: "青色1号", name: "榎本淳" },
+      { id: "7850", group: "青色1号", name: "カミムラ" },
+      { id: "7851", group: "青色1号", name: "仮屋そうめん" },
+      { id: "7852", group: "ファイヤーサンダー", name: "こてつ" },
+      { id: "7853", group: "ファイヤーサンダー", name: "﨑山祐" },
+      { id: "7854", group: "ロングコートダディ", name: "堂前透" },
+      { id: "7855", group: "ロングコートダディ", name: "兎" },
+      { id: "7856", group: "レインボー", name: "ジャンボたかお" },
+      { id: "7857", group: "レインボー", name: "池田直人" },
+      { id: "7858", group: "ベルナルド", name: "ハギノリザードマン" },
+      { id: "7859", group: "ベルナルド", name: "大将" },
+      { id: "7860", group: "トム・ブラウン", name: "布川ひろき" },
+      { id: "7861", group: "トム・ブラウン", name: "みちお" },
+      { id: "7863", group: "ダンビラムーチョ", name: "大原優一" },
+      { id: "7864", group: "ダンビラムーチョ", name: "原田フニャオ" },
+      { id: "7865", group: "シティホテル3号室", name: "亮太" },
+      { id: "7866", group: "シティホテル3号室", name: "押田" },
+      { id: "7867", group: "コットン", name: "西村真二" },
+      { id: "7868", group: "コットン", name: "きょん" },
+      { id: "7869", group: "ラブレターズ", name: "塚本直毅" },
+      { id: "7870", group: "ラブレターズ", name: "溜口佑太朗" },
+      { id: "7871", group: "隣人", name: "中村遊直" },
+      { id: "7872", group: "隣人", name: "橋本市民球場" },
+      { id: "7873", group: "ゼンモンキー", name: "ヤザキ" },
+      { id: "7906", group: "ゼンモンキー", name: "荻野将太朗" },
+      { id: "7875", group: "ゼンモンキー", name: "むらまつ" },
+      { id: "7876", group: "ジグザグジギー", name: "宮澤聡" },
+      { id: "7877", group: "ジグザグジギー", name: "池田勝" },
+      { id: "7878", group: "サルゴリラ", name: "赤羽健壱" },
+      { id: "7879", group: "サルゴリラ", name: "児玉智洋" },
+      { id: "7880", group: "カゲヤマ", name: "タバやん。" },
+      { id: "7881", group: "カゲヤマ", name: "益田康平" },
+      { id: "7882", group: "いぬ", name: "有馬徹" },
+      { id: "7883", group: "いぬ", name: "太田隆司" },
+      { id: "7884", group: "かが屋", name: "加賀翔" },
+      { id: "7885", group: "かが屋", name: "賀屋壮也" },
+      { id: "7886", group: "ビスケットブラザーズ", name: "きん" },
+      { id: "7887", group: "ビスケットブラザーズ", name: "原田泰雅" },
+      { id: "7888", group: "クロコップ", name: "荒木好之" },
+      { id: "7889", group: "クロコップ", name: "しょうた" },
+      { id: "7890", group: "最高の人間", name: "吉住" },
+      { id: "7891", group: "最高の人間", name: "岡野陽一" },
+      { id: "7894", group: "空気階段", name: "鈴木もぐら" },
+      { id: "7895", group: "空気階段", name: "水川かたまり" },
+      { id: "7896", group: "ジェラードン", name: "海野裕二" },
+      { id: "7897", group: "男性ブランコ", name: "浦井のりひろ" },
+      { id: "7898", group: "男性ブランコ", name: "平井まさあき" },
+      { id: "7899", group: "ニューヨーク", name: "嶋佐和也" },
+      { id: "7900", group: "ニューヨーク", name: "屋敷裕政" },
+      { id: "7901", group: "マヂカルラブリー", name: "野田クリスタル" },
+      { id: "7902", group: "マヂカルラブリー", name: "村上" }
+    ];
+
+    // 自動で IMG_xxx.jpeg に変換
+    const originalItems = rawData.map(item => ({
+      group: item.group,
+      name: item.name,
+      img: `IMG_${item.id}.jpeg`
+    }));
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    let allItems = shuffleArray(originalItems);
+    const ITEMS_PER_PAGE = 8; // 1ページ8人表示
+    let currentPage = 1;
+    let selectedIndices = [];
+
+    // バトル用変数
+    let battleCandidates = [];
+    let battleScores = {};
+    let battlePairs = [];
+    let currentPairIndex = 0;
+
+    function startApp() {
+      document.getElementById('start-screen').style.display = 'none';
+      document.getElementById('main-screen').style.display = 'block';
+      renderPage();
+    }
+
+    function renderPage() {
+      const totalPages = Math.ceil(allItems.length / ITEMS_PER_PAGE);
+      document.getElementById('page-indicator').textContent = `${currentPage} / ${totalPages} ページ`;
+
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, allItems.length);
+      const currentItems = allItems.slice(startIndex, endIndex);
+
+      const grid = document.getElementById('item-grid');
+      grid.innerHTML = '';
+
+      currentItems.forEach((item, index) => {
+        const globalIndex = startIndex + index;
+        const isSelected = selectedIndices.includes(globalIndex);
+
+        const card = document.createElement('div');
+        card.className = `item-card ${isSelected ? 'selected' : ''}`;
+        card.onclick = () => toggleSelect(globalIndex);
+
+        card.innerHTML = `
+          <div class="img-container">
+            <img src="${item.img}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+          </div>
+          <div class="item-info">
+            <div class="group-name">${item.group || '&nbsp;'}</div>
+            <div class="person-name">${item.name}</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      document.getElementById('prev-btn').disabled = currentPage === 1;
+      document.getElementById('next-btn').disabled = currentPage === totalPages;
+
+      updateCounter();
+    }
+
+    function changePage(delta) {
+      currentPage += delta;
+      renderPage();
+      window.scrollTo(0, 0);
+    }
+
+    function toggleSelect(index) {
+      const pos = selectedIndices.indexOf(index);
+      if (pos > -1) {
+        selectedIndices.splice(pos, 1);
+      } else {
+        selectedIndices.push(index);
+      }
+      renderPage();
+    }
+
+    function toggleSelectAllPage() {
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, allItems.length);
+      
+      let allSelected = true;
+      for (let i = startIndex; i < endIndex; i++) {
+        if (!selectedIndices.includes(i)) {
+          allSelected = false;
+          break;
+        }
+      }
+
+      for (let i = startIndex; i < endIndex; i++) {
+        if (allSelected) {
+          const pos = selectedIndices.indexOf(i);
+          if (pos > -1) selectedIndices.splice(pos, 1);
+        } else {
+          if (!selectedIndices.includes(i)) selectedIndices.push(i);
+        }
+      }
+      renderPage();
+    }
+
+    function updateCounter() {
+      const count = selectedIndices.length;
+      document.getElementById('select-counter').textContent = `選択中: ${count}人 (最低18人)`;
+
+      const btn = document.getElementById('complete-btn');
+      if (count >= 18) {
+        btn.disabled = false;
+        btn.textContent = `二者択一でランキング決定へ (${count}人選択中) ➔`;
+      } else {
+        btn.disabled = true;
+        btn.textContent = `あと ${18 - count} 人選んでね (最低18人)`;
+      }
+    }
+
+    // 二者択一フェーズの開始
+    function startBattlePhase() {
+      battleCandidates = selectedIndices.map(i => allItems[i]);
+      battleScores = {};
+      battleCandidates.forEach((c, idx) => { battleScores[idx] = 0; });
+
+      // 対戦ペアの生成（多め・上限200）
+      battlePairs = [];
+      const n = battleCandidates.length;
+      
+      // 人数に応じて巡回回数を調整（最大200戦）
+      let rounds = Math.ceil(120 / (n / 2)); 
+      if (rounds < 5) rounds = 5;
+
+      for (let r = 0; r < rounds; r++) {
+        let pool = [...Array(n).keys()];
+        pool = shuffleArray(pool);
+        for (let i = 0; i < pool.length - 1; i += 2) {
+          battlePairs.push([pool[i], pool[i+1]]);
+          if (battlePairs.length >= 200) break; // 上限200戦
+        }
+        if (battlePairs.length >= 200) break;
+      }
+
+      currentPairIndex = 0;
+      document.getElementById('main-screen').style.display = 'none';
+      document.getElementById('battle-screen').style.display = 'block';
+      renderBattle();
+    }
+
+    function renderBattle() {
+      const total = battlePairs.length;
+      if (currentPairIndex >= total) {
+        finishBattle();
+        return;
+      }
+
+      const pair = battlePairs[currentPairIndex];
+      const itemA = battleCandidates[pair[0]];
+      const itemB = battleCandidates[pair[1]];
+
+      // 進捗表示 (01/99 形式 & プログレスバー)
+      const currentNum = String(currentPairIndex + 1).padStart(2, '0');
+      const totalNum = String(total).padStart(2, '0');
+      document.getElementById('battle-progress').textContent = `${currentNum} / ${totalNum}`;
+      
+      const percent = ((currentPairIndex) / total) * 100;
+      document.getElementById('progress-bar').style.width = `${percent}%`;
+
+      document.getElementById('img-a').src = itemA.img;
+      document.getElementById('group-a').textContent = itemA.group || '\u00A0';
+      document.getElementById('name-a').textContent = itemA.name;
+
+      document.getElementById('img-b').src = itemB.img;
+      document.getElementById('group-b').textContent = itemB.group || '\u00A0';
+      document.getElementById('name-b').textContent = itemB.name;
+    }
+
+    function chooseBattle(winnerSide) {
+      const pair = battlePairs[currentPairIndex];
+      const winnerIndex = pair[winnerSide];
+      battleScores[winnerIndex] += 1;
+
+      currentPairIndex++;
+      renderBattle();
+    }
+
+    function finishBattle() {
+      // スコア順にソート（同点時は微調整）
+      const sortedIndices = Object.keys(battleScores).sort((a, b) => {
+        if (battleScores[b] === battleScores[a]) {
+          return Math.random() - 0.5;
+        }
+        return battleScores[b] - battleScores[a];
+      });
+
+      const rankedCandidates = sortedIndices.map(idx => battleCandidates[idx]);
+      const top9 = rankedCandidates.slice(0, 9);
+
+      document.getElementById('battle-screen').style.display = 'none';
+      showResult(top9, rankedCandidates);
+    }
+
+    function showResult(top9Items, allRankedItems) {
+      document.getElementById('main-screen').style.display = 'none';
+      document.getElementById('result-screen').style.display = 'block';
+
+      // 3x3 グリッド生成
+      const resultGrid = document.getElementById('result-grid');
+      resultGrid.innerHTML = '';
+
+      top9Items.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'grid-3x3-item';
+        div.innerHTML = `
+          <div class="rank-badge">${index + 1}位</div>
+          <img src="${item.img}" alt="${item.name}">
+          <div class="grid-3x3-info">
+            <div class="grid-3x3-group">${item.group || ''}</div>
+            <div class="grid-3x3-name">${item.name}</div>
+          </div>
+        `;
+        resultGrid.appendChild(div);
+      });
+
+      // 総合順位テキストの出力
+      const allRanksList = document.getElementById('all-ranks-list');
+      allRanksList.innerHTML = '';
+      allRankedItems.forEach((item, index) => {
+        const span = document.createElement('span');
+        span.className = 'rank-text-item';
+        span.textContent = `${index + 1}位: ${item.name} (${item.group || 'ピン'})`;
+        allRanksList.appendChild(span);
+      });
+    }
+
+    function backToSelect() {
+      document.getElementById('result-screen').style.display = 'none';
+      document.getElementById('battle-screen').style.display = 'none';
+      document.getElementById('main-screen').style.display = 'block';
+    }
+
+    function downloadImage() {
+      const area = document.getElementById('capture-area');
+      html2canvas(area, { scale: 2 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'koc-sukigao-top9.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>
